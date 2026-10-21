@@ -14,16 +14,7 @@ BookLib permet de :
 
 L'application gère aussi les états de chargement, d'erreur (avec un bouton « Réessayer ») et de liste vide.
 
-## Technologies
 
-| Outil | Rôle |
-|---|---|
-| Kotlin | Langage |
-| Jetpack Compose + Material 3 | Interface utilisateur |
-| Navigation 3 | Navigation entre les écrans |
-| ViewModel + StateFlow | Gestion de l'état |
-| Coil | Chargement des couvertures |
-| API Open Library | Source des livres |
 
 ## Architecture
 
@@ -85,15 +76,3 @@ Liste ──► Détail ──► (retour)
 
 L'icône cœur de la barre du haut ouvre l'écran des favoris et affiche leur nombre.
 
-## Lancer le projet
-
-1. Cloner le dépôt : `git clone https://github.com/jiheneca/BookLib.git`
-2. Ouvrir le dossier dans Android Studio.
-3. Attendre la synchronisation Gradle.
-4. Lancer l'application sur un émulateur ou un téléphone (**Run ▶**).
-
-Une connexion Internet est nécessaire pour charger les livres.
-
-## Auteur
-
-Projet réalisé par Vionaa dans le cadre du Master SWM, ISITCom Hammam-Sousse.
