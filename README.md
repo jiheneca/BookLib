@@ -7,23 +7,28 @@ Application Android de recherche et de gestion de livres favoris, développée e
 BookLib permet de :
 
 - consulter une liste de livres au démarrage ;
-- rechercher un livre par mot-clé ;
+- rechercher un livre par mot-clé avec le bouton « Rechercher » ;
 - afficher le détail d'un livre (couverture, titre, auteurs, année de première publication, nombre d'éditions) ;
 - ajouter ou retirer un livre de ses favoris ;
-- consulter la liste de ses favoris, avec un compteur dans la barre du haut.
+- consulter la liste de ses favoris, avec un compteur sur l'onglet « Favoris ».
 
 L'application gère aussi les états de chargement, d'erreur (avec un bouton « Réessayer ») et de liste vide.
 
+## Technologies
 
+| Outil | Rôle |
+|---|---|
+| Kotlin | Langage |
+| Jetpack Compose + Material 3 | Interface utilisateur |
+| Navigation 3 | Navigation entre les écrans |
+| ViewModel + StateFlow | Gestion de l'état |
+| Coil | Chargement des couvertures |
+| API Open Library | Source des livres |
 
 ## Architecture
 
 Le projet suit l'architecture **MVVM** (Model - View - ViewModel) :
 
-```
-Interface (Compose)  →  ViewModel  →  Repository  →  Source de données (API)
-      écrans              état           accès            réseau
-```
 
 - **Model** : décrit les données (`Book`).
 - **Data** : va chercher les livres (`BookRepository`).
@@ -37,42 +42,46 @@ Le flux de données est à sens unique : l'interface affiche l'état venant du V
 ```
 com.example.booklib
 ├── data
-│   └── BookRepository.kt        Accès aux données
+│   └── BookRepository.kt           Accès aux données
 ├── model
-│   └── Book.kt                  Modèle d'un livre
+│   └── Book.kt                     Modèle d'un livre
 ├── viewmodel
-│   └── BookViewModel.kt         État et logique (recherche, favoris)
+│   └── BookViewModel.kt            État et logique (recherche, favoris)
 ├── navigation
-│   ├── Destinations.kt          Destinations de la navigation
-│   └── BookNavigation.kt        Barre du haut et affichage des écrans
+│   ├── Destinations.kt             Destinations de la navigation
+│   └── BookNavigation.kt           Barres du haut et du bas, affichage des écrans
 ├── ui
-│   ├── theme                    Couleurs, typographie, thème
-│   └── components               Éléments réutilisables
-│       ├── BookCover.kt         Couverture d'un livre
-│       ├── BookItem.kt          Carte d'un livre dans une liste
-│       ├── SearchBar.kt         Champ de recherche
-│       └── StateViews.kt        Chargement, erreur, liste vide
-├── BookListScreen.kt            Écran de liste et de recherche
-├── BookDetailScreen.kt          Écran de détail
-├── FavorisScreen.kt             Écran des favoris
-└── MainActivity.kt              Point d'entrée de l'application
+│   ├── theme                       Couleurs, typographie, thème
+│   ├── components                  Éléments réutilisables
+│   │   ├── BookCover.kt            Couverture d'un livre
+│   │   ├── BookItem.kt             Carte d'un livre dans une liste
+│   │   ├── SearchBar.kt            Champ de recherche
+│   │   └── StateViews.kt           Chargement, erreur, liste vide
+│   ├── screens                     Un dossier par écran
+│   │   ├── list/BookListScreen.kt          Recherche et liste des livres
+│   │   ├── detail/BookDetailScreen.kt      Détail d'un livre
+│   │   └── favorites/FavorisScreen.kt      Liste des favoris
+│   └── util
+│       └── BookExt.kt              Fonction utilitaire pour le texte des auteurs
+└── MainActivity.kt                 Point d'entrée de l'application
 ```
 
 ## Écrans et navigation
 
 | Écran | Rôle |
 |---|---|
-| `BookListScreen` | Recherche et liste des livres |
-| `BookDetailScreen` | Détail d'un livre, ajout ou retrait des favoris |
-| `FavorisScreen` | Liste des livres favoris |
+| Liste (`BookListScreen`) | Recherche et liste des livres |
+| Détail (`BookDetailScreen`) | Détail d'un livre, ajout ou retrait des favoris |
+| Favoris (`FavorisScreen`) | Liste des livres favoris |
 
 La navigation utilise une pile (`backStack`) de destinations :
 
 ```
-Liste ──► Détail ──► (retour)
-  │
-  └──► Favoris ──► Détail
+Accueil ──► Détail ──► (retour)
+   │
+   └──► Favoris ──► Détail
 ```
 
-L'icône cœur de la barre du haut ouvre l'écran des favoris et affiche leur nombre.
+- Une **barre de navigation en bas** permet de passer de l'onglet « Accueil » à l'onglet « Favoris ». Un badge affiche le nombre de favoris.
+- Une **barre en haut** affiche le titre de l'écran et une flèche de retour.
 
