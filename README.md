@@ -14,16 +14,6 @@ BookLib permet de :
 
 L'application gère aussi les états de chargement, d'erreur (avec un bouton « Réessayer ») et de liste vide.
 
-## Technologies
-
-| Outil | Rôle |
-|---|---|
-| Kotlin | Langage |
-| Jetpack Compose + Material 3 | Interface utilisateur |
-| Navigation 3 | Navigation entre les écrans |
-| ViewModel + StateFlow | Gestion de l'état |
-| Coil | Chargement des couvertures |
-| API Open Library | Source des livres |
 
 ## Architecture
 
